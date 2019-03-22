@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32fe5a6d-0ee2-4f92-b6de-40eb41320022" name="Default Changelist" comment="" />
+    <list default="true" id="32fe5a6d-0ee2-4f92-b6de-40eb41320022" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +23,9 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -28,7 +33,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="PhpServers">
+    <servers />
+  </component>
+  <component name="ProjectFrameBounds">
     <option name="x" value="-7" />
     <option name="width" value="1165" />
     <option name="height" value="1407" />
@@ -81,15 +89,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1553289820865</updated>
-      <workItem from="1553289822012" duration="1246000" />
+      <workItem from="1553289822012" duration="1551000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1246000" />
+    <option name="totallyTimeSpent" value="1551000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1165" height="1407" extended-state="1" />
+    <frame x="-7" y="0" width="1165" height="1407" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="npm" side_tool="true" />
