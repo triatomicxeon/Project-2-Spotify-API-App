@@ -1,3 +1,11 @@
+/**
+ * Here is a list of reasons I think Node.js is silly:
+ *
+ * 1. It is.
+ *
+ * @type {createApplication}
+ */
+
 //Module Requirements----------------------------------------------------
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -5,7 +13,14 @@ var path = require('path');
 
 var app = express();
 
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 6660;
+
 //MIDDLEWARE-------------------------------------------------------------
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
 // Body-parser:
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -15,11 +30,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //ROUTES-----------------------------------------------------------------
 app.get('/', function(req, res){
-    res.send('Test');
+    // ejs render automatically looks in the views folder
+    res.render('index');
 });
 
-/*
-app.listen(6660, function(){
-    console.log('Server started on port 6660...')
+//LOCAL
+app.listen(port, function(){
+    console.log('Our app is running on http://localhost:' + port);
 })
-*/
