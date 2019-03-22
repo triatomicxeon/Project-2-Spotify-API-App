@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify - Now Playing</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- for spotify-style Montserrat font-->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+</head>
+<body>
+<div class="container">
+    <div class="login-container hidden" id="login-container">
+        <button class="btn btn-login" id="login-button">Login with Spotify</button>
+    </div>
+    <div class="main-container hidden" id="main-container"></div>
+</div>
+<script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch'></script>
+<script src='https://spotify-player.herokuapp.com/spotify-player.js'></script>
+<script src="js/index.js"></script>
+</body>
+</html>

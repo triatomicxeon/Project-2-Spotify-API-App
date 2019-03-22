@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+body {
+    background-color: #111;
+    color: #eee;
+    font-family: 'Montserrat';
+    font-size: 3vmin;
+}
+
+.hidden {
+    display: none;
+}
+
+/** Buttons **/
+.btn {
+    background-color: transparent;
+    border-radius: 2em;
+    border: 0.2em solid #1db954;
+    color: #1db954;
+    cursor: pointer;
+    font-size: 3vmin;
+    padding: 0.7em 1.5em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    background: #1db954;
+    color: #333;
+}
+
+.btn-login {
+    margin: 0 auto;
+}
+
+/** Now Playing Info **/
+.now-playing_songName {
+    font-size: 1.5em;
+    margin-bottom: .5em;
+}
+
+.now-playing_artist {
+    font-size: .8em;
+    margin-bottom: 3em;
+}
+
+.now-playing_status {
+    font-size: .4em;
+    margin-bottom: 1em;
+}
+
+.now-playing_img {
+    float: left;
+    margin-right: auto;
+    text-align: right;
+    width: 45%;
+}
+
+.now-playing_img img {
+    max-width: 80vmin;
+    width: 100%;
+}
+
+.now-playing_side {
+    margin-left: 5%;
+    width: 65%;
+}
+
+/** Progress Bar **/
+.progress {
+    border: 0.02em solid #1DB954;
+    height: .49em;
+}
+
+.progress_bar {
+    background-color: #1DB954;
+    border: 0.23em solid transparent;
+    height: 0.20em;
+}
+
+/** Background **/
+.background {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(20px);
+    position: absolute;
+}
+
+/**
+    Using main wrapper to align everything in the center
+    Using flexbox to dynamically resize...
+**/
+.main-wrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    position: relative;
+    width: 80%;
+    z-index: 1;
+}
+
+.container {
+    align-items: center;
+    background: none;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.main-container {
+    flex: 1;
+}
