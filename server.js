@@ -18,6 +18,8 @@ app.get('/', function(req, res){
     res.send('Test');
 });
 
+/*
 app.listen(6660, function(){
     console.log('Server started on port 6660...')
 })
+*/
