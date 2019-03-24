@@ -162,5 +162,6 @@ app.get('/refresh_token', function(req, res) {
 });
 
 //LOCAL-----------------------------------------------------------------------------------------------------------------
-console.log('Listening on 6660');
-app.listen(6660);
+app.listen(port, function(){
+    console.log('Our app is running on http://localhost:' + port);
+})
