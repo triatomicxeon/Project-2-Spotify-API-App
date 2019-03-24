@@ -22,7 +22,7 @@ var template = function (data) {
         <div class="now-playing_artist">${data.item.artists[0].name}</div>
         <div class="now-playing_status">${data.is_playing ? 'Playing' : 'Paused'}</div>
         <div class ="now-playing_button">
-            <input type="button" value="pause" onclick="spotifyPlayer.pause_NowPlaying()">
+            <input type="button" id="pause" value="pause" onclick="spotifyPlayer.pause_NowPlaying()">
         </div>
         <div class="progress">
           <div class="progress_bar" style="width:${data.progress_ms * 100 / data.item.duration_ms}%"></div>

@@ -58,20 +58,42 @@ class SpotifyPlayer {
         });
     }
 
+/**
+ * This function is what pauses our music playback on spotify using the API
+ * */
     pause_NowPlaying() {
-        var json = this.fetchToken().then(tokenResponse => {
+        /*
+        var ourToken = this.fetchToken().then(tokenResponse => {
             if (tokenResponse.status === 200) {
                 return tokenResponse.json();
             } else {
                 throw 'Could not refresh token';
             }
         });
+            */
 
+        var ourToken = this.fetchGeneric('https://api.spotify.com/v1/me/player/pause');
+
+            /*
+        document.getElementById('pause').addEventListener('click', function(){
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    //do something after request
+                }
+            };
+            xhttp.open("PUT", "https://api.spotify.com/v1/me/player/pause", true);
+            xhttp.setRequestHeader('Content-Type', 'application/json');
+            xhttp.setRequestHeader('Authorization', ourToken);
+            xhttp.send();
+        })
+        */
+
+        //AJAX call
         return fetch(`https://api.spotify.com/v1/me/player/pause`, {
             method: 'PUT',
             headers: new Headers({
-                'Content-Type': 'application/json',
-                'Authorization': json
+                'Content-Type': 'application/json', ourToken
             })
         }).then(response => {
             return response;
