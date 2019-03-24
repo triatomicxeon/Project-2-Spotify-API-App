@@ -62,39 +62,18 @@ class SpotifyPlayer {
  * This function is what pauses our music playback on spotify using the API
  * */
     pause_NowPlaying() {
-        /*
-        var ourToken = this.fetchToken().then(tokenResponse => {
-            if (tokenResponse.status === 200) {
-                return tokenResponse.json();
-            } else {
-                throw 'Could not refresh token';
-            }
-        });
-            */
 
-        var ourToken = this.fetchGeneric('https://api.spotify.com/v1/me/player/pause');
+        var ourToken = {};
 
-            /*
-        document.getElementById('pause').addEventListener('click', function(){
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    //do something after request
-                }
-            };
-            xhttp.open("PUT", "https://api.spotify.com/v1/me/player/pause", true);
-            xhttp.setRequestHeader('Content-Type', 'application/json');
-            xhttp.setRequestHeader('Authorization', ourToken);
-            xhttp.send();
-        })
-        */
-
-        //AJAX call
+        //Our Fetch call: it's like AJAX, but better. I decided to use it over a normal XMLHttpRequest to maintain
+        //consistency with the API.
+        //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         return fetch(`https://api.spotify.com/v1/me/player/pause`, {
             method: 'PUT',
-            headers: new Headers({
-                'Content-Type': 'application/json', ourToken
-            })
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + ourToken
+            }
         }).then(response => {
             return response;
         }).catch(e => {
