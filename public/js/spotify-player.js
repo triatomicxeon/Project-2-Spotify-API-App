@@ -67,7 +67,7 @@ class SpotifyPlayer {
             }
         });
 
-        return fetch(`${this.exchangeHost}/pause`, {
+        return fetch(`https://api.spotify.com/v1/me/player/pause`, {
             method: 'PUT',
             headers: new Headers({
                 'Content-Type': 'application/json',
