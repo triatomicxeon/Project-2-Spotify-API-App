@@ -65,7 +65,7 @@ body {
 
 .now-playing_img img {
     max-width: 80vmin;
-    width: 100%;
+    width: 80%;
 }
 
 .now-playing_side {
@@ -108,7 +108,7 @@ body {
     margin: 0 auto;
     justify-content: center;
     position: relative;
-    width: 80%;
+    width: 75%;
     z-index: 1;
 }
 
@@ -124,7 +124,24 @@ body {
     flex: 1;
 }
 
-/**Play/Pause button CSS: */
+.control-container {
+    flex: 1;
+}
+
+/**Control Container: **/
+.control-wrapper {
+    position: fixed; /* Sit on top of the page content */
+    width: 10%; /* Full width (cover the whole page) */
+    height: 10%; /* Full height (cover the whole page) */
+    left: 50%;
+    bottom: 10%;
+    z-index: 2;
+}
+
+.play-button_img img {
+    width: 30%;
+    height: auto;
+}
 
 
 

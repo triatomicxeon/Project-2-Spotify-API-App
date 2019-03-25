@@ -58,29 +58,6 @@ class SpotifyPlayer {
         });
     }
 
-/**
- * This function is what pauses our music playback on spotify using the API
- * */
-    pause_NowPlaying() {
-
-        var ourToken = {};
-
-        //Our Fetch call: it's like AJAX, but better. I decided to use it over a normal XMLHttpRequest to maintain
-        //consistency with the API.
-        //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        return fetch(`https://api.spotify.com/v1/me/player/pause`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + ourToken
-            }
-        }).then(response => {
-            return response;
-        }).catch(e => {
-            console.error(e);
-        });
-    }
-
     _onNewAccessToken() {
         if (this.accessToken === '') {
             console.log('Got empty access token, log out');

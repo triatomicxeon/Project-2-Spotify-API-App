@@ -8,12 +8,22 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 </head>
 <body>
+<!-- Our Main Display: Album, artist, track progress, etc -->
 <div class="container">
     <div class="login-container hidden" id="login-container">
         <button class="btn btn-login" id="login-button">Login with Spotify</button>
     </div>
     <div class="main-container hidden" id="main-container"></div>
 </div>
+
+<!-- Our Controls: play, pause, skip, etc -->
+<div class="control-container hidden" id="control-container"></div>
+
+<!-- All of the various scripts: -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch'></script>
 <script src='js/spotify-player.js'></script>
 <script src='js/user-interaction.js'></script>
