@@ -43,7 +43,7 @@ var templateControl = function () {
     return `
     <div class="control-wrapper">
         <div class="play-button_img">
-        <img src="../public/images/pause.png" width="100" height="100" alt="pause" id="pic" onclick="changePlayState()">
+        <img src="https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png" width="100" height="100" alt="pause" id="pic" onclick="changePlayState()">
         </div>        
     </div>
   `;
@@ -67,12 +67,12 @@ function changePlayState(){
 
 function changeIcon(){
     if ( currentIcon === "play.png" ) {
-        document.images["pic"].src = "../public/images/play.png";
+        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play.png";
         document.images["pic"].alt = "play";
         currentIcon  = "pause.png";
     }
     else {
-        document.images["pic"].src = "../public/images/pause.png";
+        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png";
         document.images["pic"].alt = "pause";
         currentIcon  = "play.png";
     }
