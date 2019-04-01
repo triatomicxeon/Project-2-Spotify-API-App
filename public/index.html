@@ -1,33 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Spotify - Now Playing</title>
+    <title>Spotify API Project</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- for spotify-style Montserrat font-->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800'
+          rel='stylesheet' type='text/css'>
 </head>
 <body>
-<!-- Our Main Display: Album, artist, track progress, etc -->
+
+<!-- Our Login Container: -->
 <div class="container">
-    <div class="login-container hidden" id="login-container">
-        <button class="btn btn-login" id="login-button">Login with Spotify</button>
+    <div class="login-container" id="login-container">
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
     </div>
-    <div class="main-container hidden" id="main-container"></div>
+
+    <!-- Our Main Display: Album, artist, track progress, etc: -->
+    <div class="main-container hidden" id="main-container">
+        <div class="main-wrapper">
+            <div class="now-playing_img">
+                <img src="${data.item.album.images[0].url}">
+            </div>
+            <div class="now-playing_side">
+                <div class="now-playing_songName"></div>
+                <div class="now-playing_artist">artist name</div>
+                <div class="now-playing_status">song status</div>
+                <div class="progress">
+                    <div class="progress_bar" style="width:${data.progress_ms * 100 / data.item.duration_ms}%"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="background" style="background-image:url(${data.item.album.images[0].url})"></div>
+    </div>
 </div>
 
-<!-- Our Controls: play, pause, skip, etc -->
-<div class="control-container hidden" id="control-container"></div>
+<!-- Our Controls: play, pause, skip, etc: -->
+<div class="control-container hidden" id="control-container">
+    <div class="control-wrapper">
+        <div class="play-button_img">
+            <img src="https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png" width="100" height="100" alt="pause" id="pic" onclick="changePlayState()">
+        </div>
+    </div>
+</div>
 
 <!-- All of the various scripts: -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+<script>
+/**
+ * Obtains parameters from the hash of the URL
+ * @return Object
+ */
+function getHashParams() {
+    var hashParams = {};
+    var e, r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+    while ( e = r.exec(q)) {
+        hashParams[e[1]] = decodeURIComponent(e[2]);
+    }
+    return hashParams;
+}
+
+var params = getHashParams();
+
+var access_token = params.access_token,
+    refresh_token = params.refresh_token,
+    error = params.error;
+
+var mainContainer = document.getElementById('main-container');
+var loginContainer = document.getElementById('login-container');
+var controlContainer = document.getElementById('control-container');
+
+/**
+ *     Handling our login attempt:
+ *     - If successful, we hide the login screen,
+ *     - If an error is returned, we notify user of the error and only show login screen.
+ */
+if (access_token) {
+    alert("Success!");
+    loginContainer.style.display = "none";
+    mainContainer.style.display = "block";
+    controlContainer.style.display = "block";
+} else if (error) {
+    alert("Error retrieving access token:" + error);
+    loginContainer.style.display = "block";
+    mainContainer.style.display = "none";
+    controlContainer.style.display = "none";
+}
+
+//SCRIPT FOR WHERE TO PUT JSON RESPONSE DATA----------------------------------------------------------------------------
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src='https://cdn.polyfill.io/v2/polyfill.min.js?features=fetch'></script>
-<script src='js/spotify-player.js'></script>
-<script src='js/user-interaction.js'></script>
-<script src="js/index.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+//SCRIPT FOR PLAY/PAUSE BUTTON------------------------------------------------------------------------------------------
+var current_state = 'playing';
+var currentIcon = "play.png";
+
+function changePlayState(){
+    // var current_state = null;
+    // if (is_playing === true) { current_state = 'playing' } else { current_state = 'paused }
+
+    if ( current_state === 'playing' ){
+        pausePlayback();
+        changeIcon();
+        current_state = 'paused';
+    } else {
+        resumePlayback();
+        changeIcon();
+        current_state = 'playing';
+    }
+}
+
+function changeIcon(){
+    if ( currentIcon === "play.png" ) {
+        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play.png";
+        document.images["pic"].alt = "play";
+        currentIcon  = "pause.png";
+    }
+    else {
+        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png";
+        document.images["pic"].alt = "pause";
+        currentIcon  = "play.png";
+    }
+}
+
+//These are our AJAX calls to the Spotify API that will actually pause/resume our music
+function pausePlayback(){
+    //AJAX call to pause playback
+    //PUT https://api.spotify.com/v1/me/player/pause
+    //https://developer.spotify.com/documentation/web-api/reference/player/pause-a-users-playback/
+    var data = JSON.stringify(false);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+
+    xhr.open("PUT", "https://api.spotify.com/v1/me/player/pause");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+    xhr.setRequestHeader("cache-control", "no-cache");
+    xhr.setRequestHeader("Postman-Token", "c6c21e7f-ef4b-4ab4-939b-5abf833df816");
+
+    xhr.send(data);
+}
+
+function resumePlayback(){
+    //AJAX call to resume playback
+    //PUT https://api.spotify.com/v1/me/player/play
+    //https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
+    var data = JSON.stringify(false);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+
+    xhr.open("PUT", "https://api.spotify.com/v1/me/player/play");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+    xhr.setRequestHeader("cache-control", "no-cache");
+    xhr.setRequestHeader("Postman-Token", "b521a659-b28b-41b2-94fe-43e707acc2f2");
+
+    xhr.send(data);
+}
+</script>
 </body>
 </html>
+

@@ -1,22 +1,17 @@
 /**
- * Here is a list of reasons I think Node.js is silly:
+ * This is an example of a basic node.js script that performs
+ * the Authorization Code oAuth2 flow to authenticate against
+ * the Spotify Accounts.
  *
- * 1. It is.
- * 2. That's all.
- *
- * Some code was sourced from Spotify:
+ * For more information, read
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
- *
  */
 
-//Module Requirements---------------------------------------------------------------------------------------------------
 var express = require('express'); // Express web server framework
 var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
-
-var bodyParser = require('body-parser');
 
 var client_id = '0c1cae66471d471a8cba5d7e677c68e5'; // Your client id
 var client_secret = '0a836189b12d4ee4b5d7ce2b1c04d629'; // Your secret
@@ -41,31 +36,19 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-// set the port of our application
-// process.env.PORT lets the port be set by Heroku
-var port = process.env.PORT || 6660;
-
-//MIDDLEWARE------------------------------------------------------------------------------------------------------------
-// set the view engine to ejs
-app.set('view engine', 'ejs');
-
-// Body-parser:
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-
-// Set Static Path
+//Display our static html page index.html
 app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
-//ROUTES----------------------------------------------------------------------------------------------------------------
+// /LOGIN endpoint
 app.get('/login', function(req, res) {
 
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    var scope = 'user-read-private user-read-email';
+    var scope = 'user-read-private user-modify-playback-state user-read-currently-playing user-read-playback-state';
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
             response_type: 'code',
@@ -76,6 +59,7 @@ app.get('/login', function(req, res) {
         }));
 });
 
+// /callback endpoint
 app.get('/callback', function(req, res) {
     // your application requests refresh and access tokens
     // after checking the state parameter
@@ -99,7 +83,7 @@ app.get('/callback', function(req, res) {
                 grant_type: 'authorization_code'
             },
             headers: {
-                'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+                'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
             },
             json: true
         };
@@ -116,9 +100,28 @@ app.get('/callback', function(req, res) {
                     json: true
                 };
 
-                // use the access token to access the Spotify Web API
+                // use the access token to access the Spotify Web API to get user info
                 request.get(options, function(error, response, body) {
+                    console.log("BEGIN USER DATA....")
                     console.log(body);
+                    console.log("END USER DATA....")
+                });
+
+                var current_playback_info = {
+                    url: 'https://api.spotify.com/v1/me/player',
+                    headers: { 'Authorization': 'Bearer ' + access_token },
+                    json: true
+                };
+
+                // use the access token to access the Spotify Web API to get information about user's current playback
+                request.get(current_playback_info, function(error, response, body) {
+                    console.log("BEGIN PLAYBACK DATA....")
+                    console.log(body);
+                    console.log("END PLAYBACK DATA....")
+                    console.log("Song name: " + body.item.name);
+                    console.log("Artist name: " + body.item.artists[0].name);
+                    console.log("Song status: " + body.is_playing ? 'Playing' : 'Paused');
+                    console.log("Current time: " + body.progress_ms + "/" + body.item.duration_ms);
                 });
 
                 // we can also pass the token to the browser to make requests from there
@@ -137,6 +140,7 @@ app.get('/callback', function(req, res) {
     }
 });
 
+// /refresh_token endpoint
 app.get('/refresh_token', function(req, res) {
 
     // requesting access token from refresh token
@@ -161,7 +165,5 @@ app.get('/refresh_token', function(req, res) {
     });
 });
 
-//LOCAL-----------------------------------------------------------------------------------------------------------------
-app.listen(port, function(){
-    console.log('Our app is running on http://localhost:' + port);
-})
+console.log('Listening on 6660');
+app.listen(6660);
