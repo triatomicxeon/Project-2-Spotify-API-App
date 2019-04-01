@@ -1,7 +1,7 @@
 /**
- * This is an example of a basic node.js script that performs
- * the Authorization Code oAuth2 flow to authenticate against
- * the Spotify Accounts.
+ * This is our node server.
+ *
+ * This server follows the Spotify Authorization flow and gets us a access_token and refresh_token.
  *
  * For more information, read
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
@@ -15,7 +15,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = '0c1cae66471d471a8cba5d7e677c68e5'; // Your client id
 var client_secret = '0a836189b12d4ee4b5d7ce2b1c04d629'; // Your secret
-var redirect_uri = 'https://cryptic-harbor-96863.herokuapp.com/callback'; // Your redirect uri
+var redirect_uri = 'https://localhost:6660/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters

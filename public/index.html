@@ -6,7 +6,7 @@
     <link href='//fonts.googleapis.com/css?family=Montserrat:thin,extra-light,light,100,200,300,400,500,600,700,800'
           rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body onload="nowPlaying()">
 
 <!-- Our Login Container: -->
 <div class="container">
@@ -21,16 +21,16 @@
                 <img src="${data.item.album.images[0].url}">
             </div>
             <div class="now-playing_side">
-                <div class="now-playing_songName"></div>
-                <div class="now-playing_artist">artist name</div>
-                <div class="now-playing_status">song status</div>
+                <div class="now-playing_songName" id="song-name"></div>
+                <div class="now-playing_artist" id="artist-name"></div>
+                <div class="now-playing_status" id="status"></div>
                 <div class="progress">
                     <div class="progress_bar" style="width:${data.progress_ms * 100 / data.item.duration_ms}%"></div>
                 </div>
 
             </div>
         </div>
-        <div class="background" style="background-image:url(${data.item.album.images[0].url})"></div>
+        <div class="background" id="background-image" style="background-image:url(${data.item.album.images[0].url})"></div>
     </div>
 </div>
 
@@ -75,18 +75,38 @@ var controlContainer = document.getElementById('control-container');
  *     - If an error is returned, we notify user of the error and only show login screen.
  */
 if (access_token) {
-    alert("Success!");
     loginContainer.style.display = "none";
     mainContainer.style.display = "block";
     controlContainer.style.display = "block";
 } else if (error) {
-    alert("Error retrieving access token:" + error);
     loginContainer.style.display = "block";
     mainContainer.style.display = "none";
     controlContainer.style.display = "none";
 }
 
-//SCRIPT FOR WHERE TO PUT JSON RESPONSE DATA----------------------------------------------------------------------------
+//SCRIPT FOR LOADING NOW PLAYING DATA-----------------------------------------------------------------------------------
+function nowPlaying(){
+    var data = JSON.stringify(false);
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+            var myObj = JSON.parse(this.responseText);
+            document.getElementById("song-name").innerHTML = myObj.item.name;
+            document.getElementById("artist-name").innerHTML = myObj.item.artists[0].name;
+            document.getElementById("status").innerHTML = myObj.is_playing ? 'Playing' : 'Paused';
+            document.getElementById("status").innerHTML = myObj.is_playing ? 'Playing' : 'Paused';
+        }
+    });
+
+    xhr.open("GET", "https://api.spotify.com/v1/me/player");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+
+    xhr.send(data);
+}
 
 
 //SCRIPT FOR PLAY/PAUSE BUTTON------------------------------------------------------------------------------------------
@@ -129,7 +149,7 @@ function pausePlayback(){
     var data = JSON.stringify(false);
 
     var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+    //xhr.withCredentials = true;
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
@@ -140,8 +160,6 @@ function pausePlayback(){
     xhr.open("PUT", "https://api.spotify.com/v1/me/player/pause");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
-    xhr.setRequestHeader("cache-control", "no-cache");
-    xhr.setRequestHeader("Postman-Token", "c6c21e7f-ef4b-4ab4-939b-5abf833df816");
 
     xhr.send(data);
 }
@@ -150,10 +168,11 @@ function resumePlayback(){
     //AJAX call to resume playback
     //PUT https://api.spotify.com/v1/me/player/play
     //https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
-    var data = JSON.stringify(false);
+
+    //var data = JSON.stringify(false);
 
     var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+    //xhr.withCredentials = true;
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
@@ -164,8 +183,6 @@ function resumePlayback(){
     xhr.open("PUT", "https://api.spotify.com/v1/me/player/play");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
-    xhr.setRequestHeader("cache-control", "no-cache");
-    xhr.setRequestHeader("Postman-Token", "b521a659-b28b-41b2-94fe-43e707acc2f2");
 
     xhr.send(data);
 }
