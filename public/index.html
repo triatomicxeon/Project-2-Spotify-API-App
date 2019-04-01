@@ -103,6 +103,8 @@ function nowPlaying(){
     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
 
     xhr.send(data);
+
+    setInterval(this.nowPlaying(), 2000);
 }
 
 
