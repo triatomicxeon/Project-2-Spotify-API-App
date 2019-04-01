@@ -36,6 +36,10 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 6660;
+
 //Display our static html page index.html
 app.use(express.static(__dirname + '/public'))
     .use(cors())
@@ -165,5 +169,6 @@ app.get('/refresh_token', function(req, res) {
     });
 });
 
-console.log('Listening on 6660');
-app.listen(6660);
+app.listen(port, function(){
+    console.log('Our app is running on http://localhost:' + port);
+})
