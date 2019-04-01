@@ -17,20 +17,15 @@
     <!-- Our Main Display: Album, artist, track progress, etc: -->
     <div class="main-container hidden" id="main-container">
         <div class="main-wrapper">
-            <div class="now-playing_img">
-                <img src="${data.item.album.images[0].url}">
-            </div>
+            <div class="now-playing_img" id="album-art"></div>
             <div class="now-playing_side">
                 <div class="now-playing_songName" id="song-name"></div>
                 <div class="now-playing_artist" id="artist-name"></div>
                 <div class="now-playing_status" id="status"></div>
-                <div class="progress">
-                    <div class="progress_bar" style="width:${data.progress_ms * 100 / data.item.duration_ms}%"></div>
-                </div>
-
+                <div class="progress" id="progress-bar"></div>
             </div>
         </div>
-        <div class="background" id="background-image" style="background-image:url(${data.item.album.images[0].url})"></div>
+        <div class="now-playing-background" id="background-image"></div>
     </div>
 </div>
 
@@ -97,7 +92,9 @@ function nowPlaying(){
             document.getElementById("song-name").innerHTML = myObj.item.name;
             document.getElementById("artist-name").innerHTML = myObj.item.artists[0].name;
             document.getElementById("status").innerHTML = myObj.is_playing ? 'Playing' : 'Paused';
-            document.getElementById("status").innerHTML = myObj.is_playing ? 'Playing' : 'Paused';
+            document.getElementById("album-art").innerHTML = "<img src=" + myObj.item.album.images[0].url + ">";
+            document.getElementById("progress-bar").innerHTML = "<div class=\"progress_bar\" style=\"width:" + myObj.progress_ms * 100 / myObj.item.duration_ms + "%\"></div>";
+            document.getElementById("background-image").innerHTML = "    <div class=\"background\" style=\"background-image:url(" + myObj.item.album.images[0].url + ")\"></div>";
         }
     });
 
