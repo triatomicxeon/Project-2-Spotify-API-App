@@ -103,8 +103,10 @@ function nowPlaying(){
     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
 
     xhr.send(data);
-}
 
+    //Nice, now we just use setTimeout and make this bad boy recursive
+    setTimeout(nowPlaying, 2000);
+}
 
 //SCRIPT FOR PLAY/PAUSE BUTTON------------------------------------------------------------------------------------------
 var current_state = 'playing';
@@ -170,7 +172,7 @@ function resumePlayback(){
     var myObj = JSON.parse(this.responseText);
     var data = JSON.stringify(
 
-    )
+    );
 
     var xhr = new XMLHttpRequest();
     //xhr.withCredentials = true;
