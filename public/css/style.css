@@ -45,6 +45,7 @@ body {
 .now-playing_songName {
     font-size: 1.5em;
     margin-bottom: .5em;
+    font-weight: bold;
 }
 
 .now-playing_artist {
@@ -144,10 +145,45 @@ body {
     z-index: 2;
 }
 
-.play-button_img img {
-    width: 30%;
+.control-button_img img {
+    width: 40%;
+    max-width: 80px;
+    min-width: 30px;
     height: auto;
 }
+
+.pause-pic {
+    content:url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause-icon.png");
+
+}
+
+.play-pic {
+    content:url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play-icon.png");
+
+    animation-name: fade;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 0.5s;
+    animation-direction: alternate;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+
+
 
 
 

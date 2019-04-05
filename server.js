@@ -15,8 +15,8 @@ var cookieParser = require('cookie-parser');
 
 var client_id = ''; // Your client id
 var client_secret = ''; // Your secret
-var redirect_uri = 'https://localhost:6660/callback'; // Your redirect uri
-//var redirect_uri = 'https://cryptic-harbor-96863.herokuapp.com/callback'; // Your redirect uri
+//var redirect_uri = 'https://localhost:6660/callback'; // Your redirect uri
+var redirect_uri = 'https://cryptic-harbor-96863.herokuapp.com/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters

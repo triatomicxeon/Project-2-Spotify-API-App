@@ -33,8 +33,8 @@
 <!-- Our Controls: play, pause, skip, etc: -->
 <div class="control-container hidden" id="control-container">
     <div class="control-wrapper">
-        <div class="play-button_img">
-            <img src="https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png" width="100" height="100" alt="pause" id="pic" onclick="changePlayState()">
+        <div class="control-button_img">
+            <img class="pause-pic" id="play-pause-button" onclick="changePlayState()">
         </div>
     </div>
 </div>
@@ -90,7 +90,6 @@ function nowPlaying(){
     }
 
     var data = JSON.stringify(false);
-
     var xhr = new XMLHttpRequest();
 
     xhr.addEventListener("readystatechange", function () {
@@ -104,6 +103,15 @@ function nowPlaying(){
             document.getElementById("album-art").innerHTML = "<img src=" + myObj.item.album.images[0].url + ">";
             document.getElementById("progress-bar").innerHTML = "<div class=\"progress_bar\" style=\"width:" + myObj.progress_ms * 100 / myObj.item.duration_ms + "%\"></div>";
             document.getElementById("background-image").innerHTML = "    <div class=\"background\" style=\"background-image:url(" + myObj.item.album.images[0].url + ")\"></div>";
+
+            //Make play/pause buttons match the play state
+            let is_playing = myObj.is_playing;
+            if (is_playing) {
+                document.getElementById("play-pause-button").className = "pause-pic";
+            } else {
+                document.getElementById("play-pause-button").className = "play-pic";
+            }
+
         }
     });
 
@@ -122,9 +130,6 @@ var current_state = 'playing';
 var currentIcon = "play.png";
 
 function changePlayState(){
-    // var current_state = null;
-    // if (is_playing === true) { current_state = 'playing' } else { current_state = 'paused }
-
     if ( current_state === 'playing' ){
         pausePlayback();
         changeIcon();
@@ -137,14 +142,13 @@ function changePlayState(){
 }
 
 function changeIcon(){
+    var x = document.getElementById("play-pause-button");
     if ( currentIcon === "play.png" ) {
-        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play.png";
-        document.images["pic"].alt = "play";
+        x.className = "play-pic";
         currentIcon  = "pause.png";
     }
     else {
-        document.images["pic"].src = "https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause.png";
-        document.images["pic"].alt = "pause";
+        x.className = "pause-pic";
         currentIcon  = "play.png";
     }
 }
