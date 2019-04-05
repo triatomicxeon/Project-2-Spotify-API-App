@@ -22,6 +22,7 @@
                 <div class="now-playing_songName" id="song-name"></div>
                 <div class="now-playing_artist" id="artist-name"></div>
                 <div class="now-playing_status" id="status"></div>
+                <div class="now-playing-timestamps" id="timestamps"></div>
                 <div class="progress" id="progress-bar"></div>
             </div>
         </div>
@@ -81,6 +82,13 @@ if (access_token) {
 
 //SCRIPT FOR LOADING NOW PLAYING DATA-----------------------------------------------------------------------------------
 function nowPlaying(){
+
+    function timeConversion(millis){
+        var minutes = Math.floor(millis / 60000);
+        var seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
     var data = JSON.stringify(false);
 
     var xhr = new XMLHttpRequest();
@@ -92,6 +100,7 @@ function nowPlaying(){
             document.getElementById("song-name").innerHTML = myObj.item.name;
             document.getElementById("artist-name").innerHTML = myObj.item.artists[0].name;
             document.getElementById("status").innerHTML = myObj.is_playing ? 'Playing' : 'Paused';
+            document.getElementById("timestamps").innerHTML = timeConversion(myObj.progress_ms) + " / " + timeConversion(myObj.item.duration_ms);
             document.getElementById("album-art").innerHTML = "<img src=" + myObj.item.album.images[0].url + ">";
             document.getElementById("progress-bar").innerHTML = "<div class=\"progress_bar\" style=\"width:" + myObj.progress_ms * 100 / myObj.item.duration_ms + "%\"></div>";
             document.getElementById("background-image").innerHTML = "    <div class=\"background\" style=\"background-image:url(" + myObj.item.album.images[0].url + ")\"></div>";
@@ -105,7 +114,7 @@ function nowPlaying(){
     xhr.send(data);
 
     //Nice, now we just use setTimeout and make this bad boy recursive
-    setTimeout(nowPlaying, 2000);
+    setTimeout(nowPlaying, 1000);
 }
 
 //SCRIPT FOR PLAY/PAUSE BUTTON------------------------------------------------------------------------------------------
@@ -140,7 +149,11 @@ function changeIcon(){
     }
 }
 
-//These are our AJAX calls to the Spotify API that will actually pause/resume our music
+/**
+ * Pause:
+ * This function makes an AJAX request to https://api.spotify.com/v1/me/player/pause which will pause playback on the
+ * account.
+ */
 function pausePlayback(){
     //AJAX call to pause playback
     //PUT https://api.spotify.com/v1/me/player/pause
@@ -163,27 +176,43 @@ function pausePlayback(){
     xhr.send(data);
 }
 
+/**
+ * Play/Resume:
+ * This function first makes an AJAX request for the "player" which gives us the current position in milliseconds.
+ * It then makes a second AJAX call "https://api.spotify.com/v1/me/player/play" once the first one is successful and,
+ * using the current position, resumes playback.
+ */
 function resumePlayback(){
-    //AJAX call to resume playback
-    //PUT https://api.spotify.com/v1/me/player/play
-    //https://developer.spotify.com/documentation/web-api/reference/player/start-a-users-playback/
-
-    //var data = JSON.stringify(false);
-    var myObj = JSON.parse(this.responseText);
-    var data = JSON.stringify(
-
-    );
-
+    var data = JSON.stringify(false);
     var xhr = new XMLHttpRequest();
-    //xhr.withCredentials = true;
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
             console.log(this.responseText);
+            var myObj = JSON.parse(this.responseText);
+
+            //Our second AJAX request to resume playback
+            var data = JSON.stringify({
+                position_ms: myObj.context.progress_ms
+            });
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                }
+            });
+
+            xhr.open("PUT", "https://api.spotify.com/v1/me/player/play");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+
+            xhr.send(data);
         }
     });
 
-    xhr.open("PUT", "https://api.spotify.com/v1/me/player/play");
+    xhr.open("GET", "https://api.spotify.com/v1/me/player");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("Authorization", "Bearer " + access_token);
 
