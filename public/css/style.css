@@ -7,6 +7,7 @@
 html, body {
     height: 100%;
 }
+
 body {
     background-color: #111;
     color: #eee;
@@ -58,7 +59,7 @@ body {
     margin-bottom: 1em;
 }
 
-.now-playing-timestamps{
+.now-playing-timestamps {
     font-size: .4em;
     margin-bottom: 1em;
 }
@@ -135,12 +136,12 @@ body {
     flex: 1;
 }
 
-/**Control Container: **/
+/** Control Container: **/
 .control-wrapper {
-    position: fixed; /* Sit on top of the page content */
-    width: 10%; /* Full width (cover the whole page) */
-    height: 10%; /* Full height (cover the whole page) */
-    left: 50%;
+    position: fixed;
+    width: 20%;
+    height: 10%;
+    left: 45%;
     bottom: 10%;
     z-index: 2;
 }
@@ -148,17 +149,21 @@ body {
 .control-button_img img {
     width: 40%;
     max-width: 80px;
-    min-width: 30px;
+    min-width: 20px;
     height: auto;
 }
 
-.pause-pic {
-    content:url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause-icon.png");
+.control-button_img img:hover {
+    transform: scale(1.1);
+}
 
+/* All the icons for our controls */
+.pause-pic {
+    content: url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/pause-icon.png");
 }
 
 .play-pic {
-    content:url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play-icon.png");
+    content: url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/play-icon.png");
 
     animation-name: fade;
     animation-timing-function: ease-in-out;
@@ -167,6 +172,15 @@ body {
     animation-direction: alternate;
 }
 
+.skip-back-pic {
+    content: url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/skip-back-icon.png");
+}
+
+.skip-forward-pic {
+    content: url("https://raw.githubusercontent.com/triatomicxeon/Project-2-Spotify-API-App/master/public/images/skip-forward-icon.png");
+}
+
+/* Blinking resume playback animation */
 @keyframes fade {
     0% {
         opacity: 1;
@@ -181,6 +195,8 @@ body {
         opacity: 0.5;
     }
 }
+
+
 
 
 

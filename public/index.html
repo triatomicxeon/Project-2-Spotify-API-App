@@ -34,7 +34,9 @@
 <div class="control-container hidden" id="control-container">
     <div class="control-wrapper">
         <div class="control-button_img">
+            <img class="skip-back-pic" id="skip-back-button" onclick="track_skipBack()">
             <img class="pause-pic" id="play-pause-button" onclick="changePlayState()">
+            <img class="skip-forward-pic" id="skip-forward-button" onclick="track_skipForward()">
         </div>
     </div>
 </div>
@@ -64,6 +66,7 @@ var access_token = params.access_token,
 var mainContainer = document.getElementById('main-container');
 var loginContainer = document.getElementById('login-container');
 var controlContainer = document.getElementById('control-container');
+var infoContainer = document.getElementById('info-container');
 
 /**
  *     Handling our login attempt:
@@ -222,6 +225,43 @@ function resumePlayback(){
 
     xhr.send(data);
 }
+
+//SCRIPT FOR SKIP BUTTONS-----------------------------------------------------------------------------------------------
+function track_skipBack(){
+    var data = JSON.stringify(false);
+    var xhr = new XMLHttpRequest();
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+
+    xhr.open("POST", "https://api.spotify.com/v1/me/player/previous");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+
+    xhr.send(data);
+}
+
+
+function track_skipForward(){
+    var data = JSON.stringify(false);
+    var xhr = new XMLHttpRequest();
+
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText);
+        }
+    });
+
+    xhr.open("POST", "https://api.spotify.com/v1/me/player/next");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+
+    xhr.send(data);
+}
+
 </script>
 </body>
 </html>
