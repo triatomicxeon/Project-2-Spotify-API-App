@@ -13,8 +13,8 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 
-var client_id = '0c1cae66471d471a8cba5d7e677c68e5'; // Your client id
-var client_secret = '0a836189b12d4ee4b5d7ce2b1c04d629'; // Your secret
+var client_id = ''; // Your client id
+var client_secret = ''; // Your secret
 //var redirect_uri = 'https://localhost:6660/callback'; // Your redirect uri
 var redirect_uri = 'https://cryptic-harbor-96863.herokuapp.com/callback'; // Your redirect uri
 
